@@ -1,12 +1,21 @@
 import React from "react";
 
-import "./App.css";
+//Page
+import Home from "./pages/Home";
+import MessageDetails from "./pages/MessageDetails";
+
+//Router
+import { BrowserRouter as Router, Route } from "react-router-dom";
+
+//Styles
+import "./style/App.css";
 
 function App() {
 	return (
-		<div>
-			<h1>Init</h1>
-		</div>
+		<Router>
+			<Route exact path='/' component={Home} />
+			<Route exact path='/message/:messageId' component={MessageDetails} />
+		</Router>
 	);
 }
 
