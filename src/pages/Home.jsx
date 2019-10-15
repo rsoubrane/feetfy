@@ -5,11 +5,10 @@ import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
 //Components
-import Header from "../components/Header";
 import Message from "../components/MessageList";
 
 //Style
-import { GlobalContainer, ContentContainer, MessageListContainer } from "../style/theme";
+import { ContentContainer, MessageListContainer } from "../style/theme";
 
 function Home() {
 	const { loading, data } = useQuery(FETCH_MESSAGES);
