@@ -22,7 +22,6 @@ function Home() {
 				) : (
 					//Sort the data to have the messages based on first names then map them
 					data.messages
-						.sort((a, b) => (a.username > b.username ? 1 : -1))
 						.map(message => <Message key={message.id} message={message} />)
 				)}
 			</MessageListContainer>
@@ -32,7 +31,7 @@ function Home() {
 
 const FETCH_MESSAGES = gql`
 	{
-		messages {
+		messages(orderBy:username_ASC){
 			id
 			username
 			slug
