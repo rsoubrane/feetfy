@@ -19,7 +19,6 @@ function Home() {
 				{loading ? (
 					<h2>Loading Messages ...</h2>
 				) : (
-					//Sort the data to have the messages based on first names then map them
 					data.messages
 						.map(message => <Message key={message.id} message={message} />)
 				)}

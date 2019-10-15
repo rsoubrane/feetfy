@@ -10,6 +10,8 @@ import { gql } from "apollo-boost";
 import ProfilePicture from "../components/ProfilePicture";
 
 //Style
+import styled from "styled-components";
+
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -36,6 +38,16 @@ const FETCH_MESSAGE = gql`
 `;
 
 
+const StyledIcon = styled(FontAwesomeIcon)`
+	position: absolute;
+	top: 7rem;
+	left: 8%;
+	font-size: 2rem;
+	font-weight: 300;
+	text-align: left;
+	cursor:pointer;
+`;
+
 function MessageDetails(props) {
 	const messageId = props.match.params.messageId
 	const { loading, data } = useQuery(FETCH_MESSAGE, {variables: {messageId}});
@@ -55,17 +67,9 @@ function MessageDetails(props) {
 
 	return (
 		<React.Fragment>
-		<FontAwesomeIcon
+		<StyledIcon
 			icon={faChevronLeft}
 			onClick={props.history.goBack}
-			style={{
-				position: "absolute",
-				top: "7rem",
-				left: "8%",
-				fontSize: "2rem",
-				fontWeight: "300",
-				textAlign: "left"
-			}}
 		/>
 
 		<ContentContainer>
