@@ -1,14 +1,12 @@
 import React from "react";
 
 //Apollo and Graph
-import { useApolloClient } from "@apollo/react-hooks";
-
-import { gql } from "apollo-boost";
+import { useApolloClient, useQuery } from "@apollo/react-hooks";
 
 // import gql from "graphql-tag";
+import { gql } from "apollo-boost";
 
 //Components
-import Header from "../components/Header";
 import ProfilePicture from "../components/ProfilePicture";
 
 //Style
@@ -16,7 +14,6 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import {
-	GlobalContainer,
 	ContentContainer,
 	MessageListContainer,
 	MessageDetailsContainer,
@@ -26,11 +23,25 @@ import {
 	ContentDetails
 } from "../style/theme";
 
+const FETCH_MESSAGE = gql`
+	query FETCH_MESSAGE($messageId: ID!) {
+		message(where:{id:$messageId}){
+			id
+			username
+			slug
+			objet
+			content
+		}
+	}
+`;
+
+
 function MessageDetails(props) {
-	const message = props.location.state.message;
+	const messageId = props.match.params.messageId
+	const { loading, data } = useQuery(FETCH_MESSAGE, {variables: {messageId}});
 
 	useApolloClient().writeFragment({
-		id: message.id,
+		id: messageId,
 		fragment: gql`
 			fragment MessageWrite on isRead {
 				isRead
@@ -44,33 +55,38 @@ function MessageDetails(props) {
 
 	return (
 		<React.Fragment>
-			<FontAwesomeIcon
-				icon={faChevronLeft}
-				onClick={props.history.goBack}
-				style={{
-					position: "absolute",
-					top: "7rem",
-					left: "8%",
-					fontSize: "2rem",
-					fontWeight: "300",
-					textAlign: "left"
-				}}
-			/>
+		<FontAwesomeIcon
+			icon={faChevronLeft}
+			onClick={props.history.goBack}
+			style={{
+				position: "absolute",
+				top: "7rem",
+				left: "8%",
+				fontSize: "2rem",
+				fontWeight: "300",
+				textAlign: "left"
+			}}
+		/>
 
-			<ContentContainer>
-				<MessageListContainer>
+		<ContentContainer>
+			<MessageListContainer>
+				{loading ?(
+					<h2>Loading Messages ...</h2>
+				) : (
 					<MessageDetailsContainer>
 						<ProfileContainer>
-							<ProfilePicture username={message.username} />
-							<NameDetails>{message.username}</NameDetails>
+							<ProfilePicture username={data.message.username} />
+							<NameDetails>{data.message.username}</NameDetails>
 						</ProfileContainer>
-						<ObjetDetails>{message.objet}</ObjetDetails>
-						<ContentDetails>{message.content}</ContentDetails>
+						<ObjetDetails>{data.message.objet}</ObjetDetails>
+						<ContentDetails>{data.message.content}</ContentDetails>
 					</MessageDetailsContainer>
-				</MessageListContainer>
-			</ContentContainer>
-		</React.Fragment>
-	);
+				)
+			}
+			</MessageListContainer>
+		</ContentContainer>
+	</React.Fragment>
+	)
 }
 
 export default MessageDetails;
