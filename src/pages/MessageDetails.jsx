@@ -43,8 +43,7 @@ function MessageDetails(props) {
 	});
 
 	return (
-		<GlobalContainer>
-			<Header />
+		<React.Fragment>
 			<FontAwesomeIcon
 				icon={faChevronLeft}
 				onClick={props.history.goBack}
@@ -58,12 +57,6 @@ function MessageDetails(props) {
 				}}
 			/>
 
-			{/* <button
-				onClick={this.test(message.id)}
-				style={{ textAlign: "center", color: "white", position: "absolute", bottom: "10%" }}>
-				TEST
-			</button> */}
-
 			<ContentContainer>
 				<MessageListContainer>
 					<MessageDetailsContainer>
@@ -76,7 +69,7 @@ function MessageDetails(props) {
 					</MessageDetailsContainer>
 				</MessageListContainer>
 			</ContentContainer>
-		</GlobalContainer>
+		</React.Fragment>
 	);
 }
 
